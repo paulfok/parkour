@@ -1,0 +1,155 @@
+[gd_scene load_steps=17 format=3 uid="uid://bomkokq1iout4"]
+
+[ext_resource type="Script" path="res://character_body_3d.gd" id="1_8wr8j"]
+[ext_resource type="Script" path="res://charge_indicator.gd" id="1_ev4wj"]
+[ext_resource type="Texture2D" uid="uid://dcqavkfpkrtfr" path="res://assets/road.png" id="2_accg7"]
+[ext_resource type="Script" path="res://button.gd" id="3_jvw1t"]
+[ext_resource type="Texture2D" uid="uid://b8vmxqplgvhb6" path="res://assets/autumn_field_puresky_4k.exr" id="4_0a32n"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5nawy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ihnp"]
+size = Vector3(32, 1, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3r8db"]
+albedo_texture = ExtResource("2_accg7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_p1ibm"]
+material = SubResource("StandardMaterial3D_3r8db")
+size = Vector2(32, 32)
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bndf"]
+albedo_texture = ExtResource("2_accg7")
+uv1_scale = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5hebx"]
+size = Vector3(8, 1, 16)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tsgq3"]
+size = Vector2(8, 16)
+center_offset = Vector3(0, -16, -8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vw05"]
+albedo_texture = ExtResource("2_accg7")
+uv1_scale = Vector3(0.667, 1, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_q1mk1"]
+panorama = ExtResource("4_0a32n")
+
+[sub_resource type="Sky" id="Sky_2sprr"]
+sky_material = SubResource("PanoramaSkyMaterial_q1mk1")
+radiance_size = 6
+
+[sub_resource type="Environment" id="Environment_k5r6i"]
+background_mode = 2
+sky = SubResource("Sky_2sprr")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_white = 16.0
+glow_enabled = true
+glow_bloom = 0.1
+fog_mode = 1
+fog_density = 1.0
+adjustment_brightness = 0.41
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChargeIndicator" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -48.0
+offset_right = 96.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_ev4wj")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_8wr8j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_5nawy")
+
+[node name="LeftWall" type="RayCast3D" parent="CharacterBody3D/CollisionShape3D"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="RightWall" type="RayCast3D" parent="CharacterBody3D/CollisionShape3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="ForwardWall" type="RayCast3D" parent="CharacterBody3D/CollisionShape3D"]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, -1, 0)
+
+[node name="BackwardWall" type="RayCast3D" parent="CharacterBody3D/CollisionShape3D"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, -1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+fov = 90.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="GroundCollision" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_3ihnp")
+
+[node name="GroundMesh" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("QuadMesh_p1ibm")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bndf")
+
+[node name="WallCollision" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 8, -16.5)
+shape = SubResource("BoxShape3D_5hebx")
+
+[node name="WallMesh" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_tsgq3")
+surface_material_override/0 = SubResource("StandardMaterial3D_4vw05")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Menus" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Menus"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -48.0
+offset_right = 64.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start"
+script = ExtResource("3_jvw1t")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k5r6i")
