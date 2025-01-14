@@ -59,17 +59,18 @@ func _physics_process(delta: float) -> void:
 			velocity.z = direction.z * (SPEED + 2.5)
 		
 		if Input.is_action_just_pressed("charge") and charging == 0 and charge_cooldown == 0:
-			charge_time = 1
-			charge_cooldown = 1
+			$"../Control/ChargeIndicator".charge_start()
+			charge_time = 0.5
+			charge_cooldown = 1.5
 			
 		if charge_time > 0:
-			charge_time -= 10 * delta
+			charge_time -= 1 * delta
 			if nearwall == 1 and not is_on_floor() and Input.is_action_just_pressed("jump") and nearwallbackward == 1:
 				velocity.y = 15
 				var input_dir := Input.get_vector("left", "right", "forward", "backward")
 				var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 				SPEED += 4
-				create_tween().tween_property($".", "SPEED", 5, 2).set_trans(Tween.TRANS_CUBIC)
+				create_tween().tween_property($".", "SPEED", 5, 2).set_trans(Tween.TRANS_QUART)
 				charging = 0
 				
 		if charge_time <= 0:
@@ -105,13 +106,13 @@ func _physics_process(delta: float) -> void:
 				velocity.z += (direction.z * SPEED * 0.025) #* velocity.z
 			
 		if Input.is_action_just_pressed("down") and is_on_floor() and slide == 0 and abs(velocity.x) + abs(velocity.z) > 5:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,0.35,0), 0.25).set_trans(Tween.TRANS_CUBIC)
+			create_tween().tween_property($Camera3D, "position", Vector3(0,0.35,0), 0.25).set_trans(Tween.TRANS_QUART)
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 			SPEED += 5
 			velocity.x = direction.x * (SPEED)
 			velocity.z = direction.z * (SPEED)
-			create_tween().tween_property($".", "SPEED", 5, 2).set_trans(Tween.TRANS_CUBIC)
+			create_tween().tween_property($".", "SPEED", 5, 2).set_trans(Tween.TRANS_QUART)
 			slide = 1
 			sliding = 1
 			
@@ -121,7 +122,7 @@ func _physics_process(delta: float) -> void:
 				slide = 0
 		
 		if Input.is_action_just_released("down") and slide > 0 or Input.is_action_just_pressed("jump") and slide > 0 or slide == 0 and sliding == 1:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_CUBIC)
+			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_QUART)
 			sliding = 0
 			slide = 0
 			

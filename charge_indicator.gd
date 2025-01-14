@@ -8,17 +8,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if not $"../../CharacterBody3D".charge_time == 0 and $"../../CharacterBody3D".charge_cooldown > 0:
-		$".".modulate.a = 1
-		create_tween().tween_property($".", "size", Vector2(0,48), .1).set_trans(Tween.TRANS_LINEAR)
-		create_tween().tween_property($".", "anchors_preset", PRESET_CENTER_BOTTOM, .1).set_trans(Tween.TRANS_LINEAR)
+		
 	if size.x == 0:
-		create_tween().tween_property($".", "size", Vector2(192,48), 1).set_trans(Tween.TRANS_LINEAR)
-		create_tween().tween_property($".", "anchors_preset", PRESET_CENTER_BOTTOM, 1).set_trans(Tween.TRANS_LINEAR)
+		create_tween().tween_property($".", "size", Vector2(192,48), 1).set_trans(Tween.TRANS_SINE)
+		create_tween().tween_property($".", "anchors_preset", PRESET_CENTER_BOTTOM, 1).set_trans(Tween.TRANS_SINE)
+		
 	if $"../../CharacterBody3D".charge_cooldown == 0 and $".".modulate.a == 1:
-		create_tween().tween_property($".", "modulate:a", 0, .25).set_trans(Tween.TRANS_CUBIC)
-		#hide()
-			#hide()
-			#size.x = 192
-		#size.x = 0
+		create_tween().tween_property($".", "modulate:a", 0, .25).set_trans(Tween.TRANS_QUART)
 	pass
+
+func charge_start():
+	$".".modulate.a = 1
+	create_tween().tween_property($".", "size", Vector2(0,48), 0.5).set_trans(Tween.TRANS_SINE)
+	create_tween().tween_property($".", "anchors_preset", PRESET_CENTER_BOTTOM, 0.5).set_trans(Tween.TRANS_SINE)
