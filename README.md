@@ -1,9 +1,9 @@
 # Controls
 
-Forward - W
-Backward - S
-Left - A
-Right - D
-Jump - Space
-Charge - Middle Click
-Slide - Shift
+Forward - W <br/>
+Backward - S <br/>
+Left - A <br/>
+Right - D <br/> 
+Jump - Space <br/> <br/>
+Charge - Middle Click <br/>
+Slide - Shift <br/>
