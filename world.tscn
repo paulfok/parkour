@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://bomkokq1iout4"]
+[gd_scene load_steps=20 format=3 uid="uid://bomkokq1iout4"]
 
 [ext_resource type="Script" path="res://character_body_3d.gd" id="1_8wr8j"]
 [ext_resource type="Script" path="res://charge_indicator.gd" id="1_ev4wj"]
 [ext_resource type="Texture2D" uid="uid://dcqavkfpkrtfr" path="res://assets/road.png" id="2_accg7"]
 [ext_resource type="Script" path="res://button.gd" id="3_jvw1t"]
 [ext_resource type="Texture2D" uid="uid://b8vmxqplgvhb6" path="res://assets/autumn_field_puresky_4k.exr" id="4_0a32n"]
+[ext_resource type="Script" path="res://options_button.gd" id="5_050hp"]
+[ext_resource type="Script" path="res://options_menu.gd" id="6_k4afr"]
+[ext_resource type="Script" path="res://option_vsync.gd" id="7_gd1s6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5nawy"]
 
@@ -135,21 +138,66 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="Menus"]
+[node name="Start" type="Button" parent="Menus"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
+offset_left = -152.0
 offset_top = -48.0
-offset_right = 64.0
+offset_right = -24.0
 offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Start"
 script = ExtResource("3_jvw1t")
+
+[node name="OptionsButton" type="Button" parent="Menus"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -48.0
+offset_right = 152.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Options"
+script = ExtResource("5_050hp")
+
+[node name="OptionsMenu" type="VBoxContainer" parent="Menus"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -150.0
+offset_right = 250.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("6_k4afr")
+
+[node name="Vsync" type="OptionButton" parent="Menus/OptionsMenu"]
+layout_mode = 2
+alignment = 1
+item_count = 4
+popup/item_0/text = "Disabled (Default)"
+popup/item_1/text = "Enabled"
+popup/item_1/id = 1
+popup/item_2/text = "Adaptive"
+popup/item_2/id = 2
+popup/item_3/text = "Mailbox"
+popup/item_3/id = 3
+script = ExtResource("7_gd1s6")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_k5r6i")
