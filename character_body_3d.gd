@@ -55,8 +55,8 @@ func _physics_process(delta: float) -> void:
 			velocity.y = 7.5
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-			velocity.x = direction.x * (SPEED + 2.5)
-			velocity.z = direction.z * (SPEED + 2.5)
+			velocity.x += (direction.x * SPEED * 0.125)
+			velocity.z += (direction.z * SPEED * 0.125)
 		
 		if Input.is_action_just_pressed("charge") and charging == 0 and charge_cooldown == 0:
 			$"../Control/ChargeIndicator".charge_start()
@@ -66,11 +66,11 @@ func _physics_process(delta: float) -> void:
 		if charge_time > 0:
 			charge_time -= 1 * delta
 			if not is_on_floor() and Input.is_action_just_pressed("jump") and nearwallbackward == 1:
-				velocity.y = 15
+				velocity.y += 12.5
 				var input_dir := Input.get_vector("left", "right", "forward", "backward")
 				var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-				SPEED += 4
-				create_tween().tween_property($".", "SPEED", 5, 2).set_trans(Tween.TRANS_CUBIC)
+				velocity.x += (direction.x * SPEED * 2)
+				velocity.z += (direction.z * SPEED * 2)
 				charge_time = 0
 				
 		if charge_time <= 0:
