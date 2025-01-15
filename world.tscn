@@ -12,7 +12,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5nawy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ihnp"]
-size = Vector3(32, 1, 32)
+size = Vector3(32, 32, 32)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3r8db"]
 albedo_texture = ExtResource("2_accg7")
@@ -107,7 +107,7 @@ fov = 90.0
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="GroundCollision" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0)
 shape = SubResource("BoxShape3D_3ihnp")
 
 [node name="GroundMesh" type="MeshInstance3D" parent="StaticBody3D"]

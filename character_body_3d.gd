@@ -72,6 +72,7 @@ func _physics_process(delta: float) -> void:
 				velocity.x += (direction.x * SPEED * 2)
 				velocity.z += (direction.z * SPEED * 2)
 				charge_time = 0
+				$"../Control/ChargeIndicator".charge_end_jump()
 				
 		if charge_time <= 0:
 			charge_time = 0
