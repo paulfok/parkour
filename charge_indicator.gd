@@ -5,7 +5,6 @@ var start_tween
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$".".modulate.a = 0
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,7 +15,6 @@ func _process(delta: float) -> void:
 	
 	if $"../../CharacterBody3D".charge_cooldown == 0 and $".".modulate.a == 1:
 		create_tween().tween_property($".", "modulate:a", 0, .25).set_trans(Tween.TRANS_QUART)
-	pass
 
 func charge_end_jump():
 	start_tween.kill()

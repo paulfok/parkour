@@ -33,7 +33,6 @@ func _input(event):
 
 func _physics_process(delta: float) -> void:
 
-
 	if Menu == 0:
 		$"../Menus".hide()
 	else:
@@ -101,11 +100,11 @@ func _physics_process(delta: float) -> void:
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 			if direction:
-				velocity.x *= 0.975
-				velocity.z *= 0.975
-				velocity.x += (direction.x * SPEED * 0.025) #* velocity.x
-				velocity.z += (direction.z * SPEED * 0.025) #* velocity.z
-			
+				velocity.x *= 0.925
+				velocity.z *= 0.925
+				velocity.x += (direction.x * SPEED * 0.1)
+				velocity.z += (direction.z * SPEED * 0.1)
+
 		if Input.is_action_just_pressed("down") and is_on_floor() and slide == 0 and abs(velocity.x) + abs(velocity.z) > 5:
 			create_tween().tween_property($Camera3D, "position", Vector3(0,0.5,0), 0.25).set_trans(Tween.TRANS_CUBIC)
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")

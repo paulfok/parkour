@@ -10,4 +10,3 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if button_pressed:
 		$"../OptionsMenu".OptionsOpened = 1
-	pass
