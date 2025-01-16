@@ -120,6 +120,9 @@ func _physics_process(delta: float) -> void:
 			slide -= 1 * delta
 			if slide < 0:
 				slide = 0
+			
+		if abs(velocity.x) + abs(velocity.z) < 5 and sliding == 1:
+			slide = 0
 		
 		if Input.is_action_just_released("down") and slide > 0 or Input.is_action_just_pressed("jump") and slide > 0 or slide == 0 and sliding == 1:
 			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_CUBIC)
