@@ -35,6 +35,7 @@ func _physics_process(delta: float) -> void:
 
 	if Menu == 0:
 		$"../Menus".hide()
+		$"../Menus/Start".text = "Unpause"
 	else:
 		$"../Menus".show()
 		velocity.x = 0
