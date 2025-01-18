@@ -107,7 +107,8 @@ func _physics_process(delta: float) -> void:
 				velocity.z += (direction.z * SPEED * 0.1)
 
 		if Input.is_action_just_pressed("down") and is_on_floor() and slide == 0 and abs(velocity.x) + abs(velocity.z) > 5:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,0.5,0), 0.25).set_trans(Tween.TRANS_CUBIC)
+			create_tween().tween_property($Camera3D, "position", Vector3(0,1,0), 0.25).set_trans(Tween.TRANS_SINE)
+			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,0.5,1), 0.25).set_trans(Tween.TRANS_SINE)
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 			SPEED += 5
@@ -126,7 +127,8 @@ func _physics_process(delta: float) -> void:
 			slide = 0
 		
 		if Input.is_action_just_released("down") and slide > 0 or Input.is_action_just_pressed("jump") and slide > 0 or slide == 0 and sliding == 1:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_CUBIC)
+			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_SINE)
+			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,1,1), 0.25).set_trans(Tween.TRANS_SINE)
 			sliding = 0
 			slide = 0
 			
