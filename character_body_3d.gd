@@ -30,12 +30,6 @@ func _physics_process(delta: float) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	if Input.is_action_just_pressed("forward"):
-		rotation.y += 10
-	
-	if Input.is_action_just_released("forward"):
-		rotation.y += 10
 
 	if Menu == 0:
 		$"../Menus".hide()
