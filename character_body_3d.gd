@@ -18,13 +18,6 @@ const JUMP_VELOCITY = 5
 @export_range(0, 10, 0.01) var sensitivity : float = 3
 
 func _input(event):
-	
-	if Menu == 1:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		
-	
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			rotation.y -= event.relative.x / 1000 * sensitivity
@@ -32,6 +25,17 @@ func _input(event):
 			$Camera3D.rotation.x = clamp($Camera3D.rotation.x, PI/-2, PI/2)
 
 func _physics_process(delta: float) -> void:
+	
+	if Menu == 1:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	if Input.is_action_just_pressed("forward"):
+		rotation.y += 10
+	
+	if Input.is_action_just_released("forward"):
+		rotation.y += 10
 
 	if Menu == 0:
 		$"../Menus".hide()
