@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bomkokq1iout4"]
+[gd_scene load_steps=21 format=3 uid="uid://bomkokq1iout4"]
 
 [ext_resource type="Script" path="res://character_body_3d.gd" id="1_8wr8j"]
 [ext_resource type="Script" path="res://charge_indicator.gd" id="1_ev4wj"]
@@ -12,32 +12,6 @@
 [ext_resource type="Script" path="res://option_anti_aliasing.gd" id="9_uftvq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5nawy"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3ihnp"]
-size = Vector3(32, 32, 32)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3r8db"]
-albedo_texture = ExtResource("2_accg7")
-
-[sub_resource type="QuadMesh" id="QuadMesh_p1ibm"]
-material = SubResource("StandardMaterial3D_3r8db")
-size = Vector2(32, 32)
-orientation = 1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bndf"]
-albedo_texture = ExtResource("2_accg7")
-uv1_scale = Vector3(2.5, 2.5, 2.5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5hebx"]
-size = Vector3(8, 1, 16)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_tsgq3"]
-size = Vector2(8, 16)
-center_offset = Vector3(0, -16, -8)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vw05"]
-albedo_texture = ExtResource("2_accg7")
-uv1_scale = Vector3(0.667, 1, 1)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_q1mk1"]
 panorama = ExtResource("4_0a32n")
@@ -58,6 +32,26 @@ glow_bloom = 0.1
 fog_mode = 1
 fog_density = 1.0
 adjustment_brightness = 0.41
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ihnp"]
+size = Vector3(32, 32, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unj4i"]
+albedo_texture = ExtResource("2_accg7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3r8db"]
+albedo_texture = ExtResource("2_accg7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_p1ibm"]
+material = SubResource("StandardMaterial3D_3r8db")
+size = Vector2(32, 32)
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bndf"]
+albedo_texture = ExtResource("2_accg7")
+uv1_scale = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qxs8i"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -100,34 +94,12 @@ transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -1,
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, -1, 0)
 
 [node name="BackwardWall" type="RayCast3D" parent="CharacterBody3D/CollisionShape3D"]
-transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, -1, 0)
+transform = Transform3D(1.91069e-15, -4.37114e-08, 50, -1, -4.37114e-08, 1.79995e-19, 4.37114e-08, -1, -2.18557e-06, 0, -1, 0)
+debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 fov = 90.0
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="GroundCollision" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0)
-shape = SubResource("BoxShape3D_3ihnp")
-
-[node name="GroundMesh" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("QuadMesh_p1ibm")
-surface_material_override/0 = SubResource("StandardMaterial3D_1bndf")
-
-[node name="WallCollision" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 8, -16.5)
-shape = SubResource("BoxShape3D_5hebx")
-
-[node name="WallMesh" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PlaneMesh_tsgq3")
-surface_material_override/0 = SubResource("StandardMaterial3D_4vw05")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3314.44, 0)
-shadow_enabled = true
 
 [node name="Menus" type="Control" parent="."]
 layout_mode = 3
@@ -229,3 +201,32 @@ script = ExtResource("9_uftvq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_k5r6i")
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3314.44, 0)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map"]
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Map/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0)
+shape = SubResource("BoxShape3D_3ihnp")
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Map/StaticBody3D"]
+material_override = SubResource("StandardMaterial3D_unj4i")
+mesh = SubResource("QuadMesh_p1ibm")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bndf")
+
+[node name="Wall" type="StaticBody3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60832, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Wall"]
+shape = SubResource("BoxShape3D_qxs8i")
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Map/Wall"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 31.0112, 0, 0)
+material_override = SubResource("StandardMaterial3D_unj4i")
+mesh = SubResource("QuadMesh_p1ibm")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bndf")

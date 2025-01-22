@@ -6,13 +6,10 @@ var sliding = 0
 var charge_time = 0
 var charging = 0
 var charge_cooldown = 0
-var nearwallleft
-var nearwallright
-var nearwall
-var nearwallleftright
-var nearwallforward
 var nearwallbackward
-
+var leftwallruntime = 2
+var rightwallruntime = 2
+var wallrunstartpos
 var SPEED = 5.0
 const JUMP_VELOCITY = 5
 @export_range(0, 10, 0.01) var sensitivity : float = 3
@@ -53,8 +50,8 @@ func _physics_process(delta: float) -> void:
 			velocity.y = 7.5
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-			velocity.x += (direction.x * SPEED * 0.125)
-			velocity.z += (direction.z * SPEED * 0.125)
+			velocity.x += (direction.x * velocity.x * 0.125)
+			velocity.z += (direction.z * velocity.z * 0.125)
 		
 		if Input.is_action_just_pressed("charge") and charging == 0 and charge_cooldown == 0:
 			$"../Control/ChargeIndicator".charge_start()
@@ -67,8 +64,8 @@ func _physics_process(delta: float) -> void:
 				velocity.y += 12.5
 				var input_dir := Input.get_vector("left", "right", "forward", "backward")
 				var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-				velocity.x += (direction.x * SPEED * 2)
-				velocity.z += (direction.z * SPEED * 2)
+				velocity.x += (direction.x * SPEED * 3)
+				velocity.z += (direction.z * SPEED * 3)
 				charge_time = 0
 				$"../Control/ChargeIndicator".charge_end_jump()
 				
@@ -104,9 +101,9 @@ func _physics_process(delta: float) -> void:
 				velocity.x += (direction.x * SPEED * 0.1)
 				velocity.z += (direction.z * SPEED * 0.1)
 
-		if Input.is_action_just_pressed("down") and is_on_floor() and slide == 0 and abs(velocity.x) + abs(velocity.z) > 5:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,1,0), 0.25).set_trans(Tween.TRANS_SINE)
-			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,0.5,1), 0.25).set_trans(Tween.TRANS_SINE)
+		if Input.is_action_just_pressed("down") and is_on_floor() and slide == 0 and abs(velocity.x) + abs(velocity.z) > 5 and $CollisionShape3D.scale == Vector3(1, 1, 1):
+			create_tween().tween_property($Camera3D, "position", Vector3(0,1,0), 0.1).set_trans(Tween.TRANS_SINE)
+			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,0.5,1), 0.1).set_trans(Tween.TRANS_SINE)
 			var input_dir := Input.get_vector("left", "right", "forward", "backward")
 			var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 			SPEED += 5
@@ -125,8 +122,8 @@ func _physics_process(delta: float) -> void:
 			slide = 0
 		
 		if Input.is_action_just_released("down") and slide > 0 or Input.is_action_just_pressed("jump") and slide > 0 or slide == 0 and sliding == 1:
-			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.25).set_trans(Tween.TRANS_SINE)
-			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,1,1), 0.25).set_trans(Tween.TRANS_SINE)
+			create_tween().tween_property($Camera3D, "position", Vector3(0,1.5,0), 0.1).set_trans(Tween.TRANS_SINE)
+			create_tween().tween_property($"CollisionShape3D", "scale", Vector3(1,1,1), 0.1).set_trans(Tween.TRANS_SINE)
 			sliding = 0
 			slide = 0
 			
@@ -136,28 +133,15 @@ func _physics_process(delta: float) -> void:
 			position.z = 0
 		if Input.is_action_just_pressed("menu"):
 			Menu = 1
-	if $CollisionShape3D/LeftWall.is_colliding():
-		nearwallleft = 1
-		nearwall = 1
-	else:
-		nearwallleft = 0
-	if $CollisionShape3D/RightWall.is_colliding():
-		nearwallright = 1
-		nearwall = 1
-	else:
-		nearwallright = 0
-	if $CollisionShape3D/ForwardWall.is_colliding():
-		nearwallforward = 1
-		nearwall = 1
-	else:
-		nearwallforward = 0
+		#Left Wallrun thingy
+		if Input.is_action_pressed("jump") and $CollisionShape3D/LeftWall.is_colliding() and abs(velocity.x) + abs(velocity.z) >= 2:
+			if Input.is_action_just_pressed("jump"):
+				wallrunstartpos = position.y
+			position.y -= leftwallruntime * delta
+		leftwallruntime -= 1 * delta
+		rightwallruntime -= 1 * delta
 	if $CollisionShape3D/BackwardWall.is_colliding():
 		nearwallbackward = 1
-		nearwall = 1
 	else:
 		nearwallbackward = 0
-	if not $CollisionShape3D/RightWall.is_colliding() and not $CollisionShape3D/LeftWall.is_colliding():
-		nearwallleftright = 0
-	if not $CollisionShape3D/RightWall.is_colliding() and not $CollisionShape3D/LeftWall.is_colliding() and not $CollisionShape3D/BackwardWall.is_colliding() and not $CollisionShape3D/ForwardWall.is_colliding():
-		nearwall = 0
 	move_and_slide()
